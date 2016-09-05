@@ -17,18 +17,28 @@ public class TwitchStat
 	
     public static void main( String[] args )
     {
+    	if (args.length == 0)
+    	{
+    		System.out.println("Channel name required");
+    		System.exit(-1);
+    	}
+    	
+    	String channelName = args[0];
+    	
     	twitch = new TwitchAPI();
     	
-    	TwitchChannel channel = new TwitchChannel("esea");
+    	TwitchChannel channel = new TwitchChannel(channelName);
+    	boolean isLive = channel.isLive();
+    	
     	System.out.println("Name: " + channel.name);
     	System.out.println("Display: " + channel.displayName);
-    	System.out.println("Live: " + channel.isLive());
+    	System.out.println("Live: " + isLive);
     	System.out.println("Game: " + channel.game);
     	System.out.println("Status: " + channel.status);
     	System.out.println("Views: " + channel.views);
     	System.out.println("Followers: " + channel.followers);
     	
-    	if (channel.isLive())
+    	if (isLive)
     	{
 	    	TwitchStream stream = channel.getStream();
 	    	System.out.println("Viewers: " + stream.viewers);
@@ -40,7 +50,7 @@ public class TwitchStat
     	Configuration listenerConfig = new Configuration.Builder()
 		.setName("justinfan12345")
 		.addServer("irc.chat.twitch.tv", 6667)
-		.addAutoJoinChannel("#esea")
+		.addAutoJoinChannel("#" + channelName)
 		.addListener(new ChatListener())
 		.buildConfiguration();
 	

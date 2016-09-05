@@ -36,12 +36,7 @@ public class TwitchChannel {
 	
 	public TwitchStream getStream()
 	{
-		if (api.channelOnline(this.name))
-		{
-			return new TwitchStream(this);
-		}
-		
-		return null;
+		return new TwitchStream(this);
 	}
 
 }
